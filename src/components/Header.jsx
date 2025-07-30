@@ -5,11 +5,24 @@ import { HiMenu, HiX } from 'react-icons/hi'
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [activeSection, setActiveSection] = useState('hero')
 
   useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 10
       setScrolled(isScrolled)
+
+      // Track active section
+      const sections = ['hero', 'about', 'experience', 'projects', 'skills', 'contact']
+      const current = sections.find(section => {
+        const element = document.getElementById(section)
+        if (element) {
+          const rect = element.getBoundingClientRect()
+          return rect.top <= 100 && rect.bottom > 100
+        }
+        return false
+      })
+      if (current) setActiveSection(current)
     }
 
     window.addEventListener('scroll', handleScroll)
@@ -60,26 +73,32 @@ const Header = () => {
       transition={{ duration: 0.5 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled 
-          ? 'bg-white/90 backdrop-blur-md shadow-lg border-b border-gray-200' 
+          ? 'bg-white/95 backdrop-blur-lg shadow-xl border-b border-gray-200' 
           : 'bg-transparent'
       }`}
       role="banner"
     >
       <nav className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4" role="navigation" aria-label="Main navigation">
         <div className="flex items-center justify-between">
+          {/* Enhanced Brand Logo */}
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => scrollToSection('hero')}
             onKeyDown={(e) => handleKeyDown(e, 'hero')}
-            className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-2 py-1"
+            className="flex items-center gap-3 text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-2 py-1"
             aria-label="Go to home section"
           >
-            VD
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white text-sm sm:text-base font-black shadow-lg">
+              VD
+            </div>
+            <span className="hidden sm:block bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              Vikas Dwivedi
+            </span>
           </motion.button>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-4 lg:space-x-8" role="menubar">
+          <div className="hidden md:flex items-center space-x-1 lg:space-x-2" role="menubar">
             {navItems.map((item) => (
               <motion.button
                 key={item.name}
@@ -87,18 +106,31 @@ const Header = () => {
                 whileTap={{ scale: 0.95 }}
                 onClick={() => scrollToSection(item.href)}
                 onKeyDown={(e) => handleKeyDown(e, item.href)}
-                className="text-sm lg:text-base text-gray-700 hover:text-blue-600 transition-colors duration-300 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded px-2 lg:px-3 py-2"
+                className={`relative px-3 lg:px-4 py-2 rounded-full text-sm lg:text-base font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+                  activeSection === item.href
+                    ? 'text-white bg-blue-600 shadow-lg'
+                    : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50'
+                }`}
                 role="menuitem"
                 aria-label={`Navigate to ${item.name} section`}
               >
                 {item.name}
+                {activeSection === item.href && (
+                  <motion.div
+                    layoutId="activeSection"
+                    className="absolute inset-0 bg-blue-600 rounded-full -z-10"
+                    transition={{ duration: 0.3 }}
+                  />
+                )}
               </motion.button>
             ))}
           </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden">
-            <button
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               onClick={toggleMobileMenu}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -106,17 +138,22 @@ const Header = () => {
                   toggleMobileMenu()
                 }
               }}
-              className="text-gray-700 hover:text-blue-600 transition-colors p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
+              className="relative p-2 rounded-lg text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
               aria-label={isOpen ? 'Close mobile menu' : 'Open mobile menu'}
               aria-expanded={isOpen}
               aria-controls="mobile-menu"
             >
-              {isOpen ? <HiX size={20} className="sm:w-6 sm:h-6" /> : <HiMenu size={20} className="sm:w-6 sm:h-6" />}
-            </button>
+              <motion.div
+                animate={{ rotate: isOpen ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {isOpen ? <HiX size={24} /> : <HiMenu size={24} />}
+              </motion.div>
+            </motion.button>
           </div>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Enhanced Mobile Navigation */}
         <motion.div
           id="mobile-menu"
           initial={{ opacity: 0, height: 0 }}
@@ -129,18 +166,24 @@ const Header = () => {
           role={isOpen ? "menu" : undefined}
           aria-hidden={!isOpen}
         >
-          <div className="py-3 sm:py-4 space-y-2 sm:space-y-4 bg-white/95 backdrop-blur-sm rounded-lg mt-2 shadow-lg border border-gray-200">
+          <div className="py-4 space-y-2 bg-white/95 backdrop-blur-lg rounded-2xl mt-4 shadow-2xl border border-gray-200">
             {navItems.map((item) => (
-              <button
+              <motion.button
                 key={item.name}
+                whileHover={{ scale: 1.02, x: 10 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={() => scrollToSection(item.href)}
                 onKeyDown={(e) => handleKeyDown(e, item.href)}
-                className="block w-full text-left text-sm sm:text-base text-gray-700 hover:text-blue-600 transition-colors duration-300 font-medium py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 hover:bg-blue-50"
+                className={`block w-full text-left py-3 px-6 rounded-xl font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+                  activeSection === item.href
+                    ? 'text-white bg-blue-600 shadow-lg mx-3'
+                    : 'text-gray-700 hover:text-blue-600 hover:bg-blue-50 mx-3'
+                }`}
                 role="menuitem"
                 aria-label={`Navigate to ${item.name} section`}
               >
                 {item.name}
-              </button>
+              </motion.button>
             ))}
           </div>
         </motion.div>
