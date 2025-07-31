@@ -1,18 +1,12 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
-import { useRef } from 'react'
-import { HiCode, HiLightningBolt, HiAcademicCap, HiTrendingUp } from 'react-icons/hi'
+import { useRef, useState } from 'react'
+import { HiCode, HiLightningBolt, HiAcademicCap, HiTrendingUp, HiArrowRight, HiStar, HiHeart, HiSparkles, HiCheckCircle } from 'react-icons/hi'
 
 const About = () => {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, threshold: 0.3 })
-
-  const stats = [
-    { number: "1.5+", label: "Years Experience", icon: <HiTrendingUp /> },
-    { number: "5+", label: "Projects Completed", icon: <HiCode /> },
-    { number: "8+", label: "Technologies Used", icon: <HiLightningBolt /> },
-    { number: "100%", label: "Dedication", icon: <HiAcademicCap /> }
-  ]
+  const [hoveredSkill, setHoveredSkill] = useState(null)
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -20,13 +14,13 @@ const About = () => {
       opacity: 1,
       transition: {
         delayChildren: 0.3,
-        staggerChildren: 0.2
+        staggerChildren: 0.15
       }
     }
   }
 
   const itemVariants = {
-    hidden: { y: 30, opacity: 0 },
+    hidden: { y: 50, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
@@ -37,261 +31,502 @@ const About = () => {
     }
   }
 
-  const imageVariants = {
-    hidden: { scale: 0.8, opacity: 0, rotate: -10 },
-    visible: {
-      scale: 1,
-      opacity: 1,
-      rotate: 0,
+  const skillVariants = {
+    hidden: { width: 0 },
+    visible: (level) => ({
+      width: `${level}%`,
       transition: {
-        duration: 1,
-        ease: "easeOut"
+        duration: 1.5,
+        ease: "easeOut",
+        delay: 0.5
       }
-    }
+    })
   }
 
-  const statsVariants = {
-    hidden: { scale: 0.8, opacity: 0 },
-    visible: {
-      scale: 1,
-      opacity: 1,
-      transition: {
-        duration: 0.6,
-        delay: 0.8
-      }
+  const stats = [
+    { label: "Experience", value: "1.5+ Years", icon: "🚀", color: "from-blue-500 to-cyan-500" },
+    { label: "Projects", value: "5+", icon: "💼", color: "from-green-500 to-emerald-500" },
+    { label: "Technologies", value: "8+", icon: "⚡", color: "from-purple-500 to-pink-500" }
+  ]
+
+  const focusAreas = [
+    {
+      icon: <HiCode className="w-8 h-8" />,
+      title: "Backend Development",
+      description: "Building robust APIs and scalable server architectures with Python & Django",
+      color: "from-blue-500 to-indigo-600",
+      bgColor: "bg-blue-50 dark:bg-blue-900/20"
+    },
+    {
+      icon: <HiLightningBolt className="w-8 h-8" />,
+      title: "LLM Evaluation",
+      description: "Evaluating and optimizing AI models for production use with advanced techniques",
+      color: "from-yellow-500 to-orange-600",
+      bgColor: "bg-yellow-50 dark:bg-yellow-900/20"
+    },
+    {
+      icon: <HiAcademicCap className="w-8 h-8" />,
+      title: "System Design",
+      description: "Designing efficient and maintainable software systems and architectures",
+      color: "from-green-500 to-teal-600",
+      bgColor: "bg-green-50 dark:bg-green-900/20"
+    },
+    {
+      icon: <HiTrendingUp className="w-8 h-8" />,
+      title: "Performance Optimization",
+      description: "Optimizing applications for speed, scalability, and enhanced user experience",
+      color: "from-purple-500 to-pink-600",
+      bgColor: "bg-purple-50 dark:bg-purple-900/20"
+    }
+  ]
+
+  const skills = [
+    { name: "Python", level: 90, color: "from-yellow-400 to-yellow-600" },
+    { name: "Django", level: 85, color: "from-green-400 to-green-600" },
+    { name: "JavaScript", level: 80, color: "from-blue-400 to-blue-600" },
+    { name: "REST APIs", level: 88, color: "from-purple-400 to-purple-600" },
+    { name: "PostgreSQL", level: 82, color: "from-indigo-400 to-indigo-600" },
+    { name: "LLM Evaluation", level: 87, color: "from-pink-400 to-pink-600" }
+  ]
+
+  const keyStrengths = [
+    { 
+      text: "Problem-solving mindset with analytical approach",
+      icon: <HiLightningBolt className="w-5 h-5 text-yellow-500" />
+    },
+    { 
+      text: "Collaborative team player with strong communication",
+      icon: <HiHeart className="w-5 h-5 text-red-500" />
+    },
+    { 
+      text: "Continuous learner staying updated with latest tech",
+      icon: <HiAcademicCap className="w-5 h-5 text-blue-500" />
+    },
+    { 
+      text: "Detail-oriented with focus on code quality",
+      icon: <HiCheckCircle className="w-5 h-5 text-green-500" />
+    }
+  ]
+
+  const handleLetConnect = () => {
+    const contactSection = document.getElementById('contact')
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' })
     }
   }
 
   return (
-    <section id="about" className="py-16 md:py-24 bg-gradient-to-br from-gray-50 via-white to-blue-50 px-4 sm:px-6 lg:px-8 relative overflow-hidden" ref={ref}>
-      {/* Background decoration */}
+    <section 
+      id="about" 
+      ref={ref}
+      className="py-20 md:py-32 bg-gradient-to-br from-gray-50 via-white to-blue-50 dark:from-gray-800 dark:via-gray-900 dark:to-blue-900 relative overflow-hidden transition-all duration-300"
+    >
+      {/* Enhanced Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 -right-20 w-64 h-64 bg-blue-100 rounded-full opacity-20 blur-3xl" />
-        <div className="absolute bottom-1/4 -left-20 w-64 h-64 bg-indigo-100 rounded-full opacity-20 blur-3xl" />
+        <motion.div
+          animate={{ 
+            scale: [1, 1.1, 1],
+            rotate: [0, 180, 360] 
+          }}
+          transition={{ 
+            duration: 20,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          className="absolute top-20 left-20 w-64 h-64 bg-gradient-to-r from-blue-200/30 to-purple-200/30 dark:from-blue-800/20 dark:to-purple-800/20 rounded-full blur-3xl"
+        />
+        <motion.div
+          animate={{ 
+            scale: [1.1, 1, 1.1],
+            rotate: [360, 180, 0] 
+          }}
+          transition={{ 
+            duration: 25,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          className="absolute bottom-20 right-20 w-80 h-80 bg-gradient-to-r from-purple-200/30 to-pink-200/30 dark:from-purple-800/20 dark:to-pink-800/20 rounded-full blur-3xl"
+        />
+        
+        {/* Floating particles */}
+        {[...Array(6)].map((_, i) => (
+          <motion.div
+            key={i}
+            animate={{
+              y: [-20, -60, -20],
+              x: [-10, 10, -10],
+              opacity: [0.3, 0.8, 0.3]
+            }}
+            transition={{
+              duration: 3 + i,
+              repeat: Infinity,
+              delay: i * 0.5
+            }}
+            className={`absolute w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full`}
+            style={{
+              left: `${20 + i * 15}%`,
+              top: `${30 + i * 10}%`
+            }}
+          />
+        ))}
       </div>
 
-      <div className="container mx-auto relative z-10">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="max-w-7xl mx-auto"
         >
           {/* Enhanced Section Header */}
-          <motion.div variants={itemVariants} className="text-center mb-16 md:mb-20">
-            <div className="inline-flex items-center gap-3 bg-white/80 backdrop-blur-sm border border-gray-200 rounded-full px-6 py-3 mb-6">
-              <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
-              <span className="text-sm font-semibold text-gray-600 uppercase tracking-wider">About Me</span>
-            </div>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-gray-800 mb-6">
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                Passionate
+          <motion.div variants={itemVariants} className="text-center mb-20">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/50 dark:to-purple-900/50 text-blue-700 dark:text-blue-300 px-6 py-3 rounded-full text-sm font-medium mb-6 backdrop-blur-sm border border-blue-200/50 dark:border-blue-700/50"
+            >
+              <motion.span
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              >
+                👨‍💻
+              </motion.span>
+              <span>Get to know me better</span>
+              <HiSparkles className="w-4 h-4" />
+            </motion.div>
+            
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-800 dark:text-white mb-6">
+              About{" "}
+              <span className="relative">
+                <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
+                  Me
+                </span>
+                <motion.div
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                  className="absolute -top-2 -right-2 text-yellow-400"
+                >
+                  <HiStar className="w-6 h-6" />
+                </motion.div>
               </span>
-              <br />
-              <span className="text-gray-800">Developer</span>
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mx-auto mb-6" />
-            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Transforming ideas into scalable digital solutions with cutting-edge technology
-            </p>
+            
+            <motion.p 
+              variants={itemVariants}
+              className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed"
+            >
+              Passionate about creating efficient solutions and evaluating cutting-edge AI technologies
+              <span className="text-blue-600 dark:text-blue-400 font-semibold"> with modern innovation</span>
+            </motion.p>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-16">
-            {/* Enhanced Profile Image Section */}
-            <motion.div variants={imageVariants} className="relative order-2 lg:order-1">
-              <div className="relative max-w-md mx-auto">
-                {/* Main image container */}
-                <div className="relative">
-                  <div className="w-80 h-80 mx-auto relative">
-                    {/* Background decorative shapes */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-400 via-purple-500 to-indigo-600 rounded-3xl shadow-2xl transform rotate-6 opacity-90" />
-                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500 rounded-3xl shadow-2xl transform -rotate-3 opacity-80" />
-                    
-                    {/* Profile placeholder */}
-                    <div className="absolute inset-4 bg-white rounded-3xl flex items-center justify-center text-gray-600 text-7xl font-black shadow-xl transform rotate-1">
-                      VD
-                    </div>
-                    
-                    {/* Floating elements */}
-                    <motion.div
-                      animate={{ y: [0, -10, 0], rotate: [0, 5, 0] }}
-                      transition={{ duration: 4, repeat: Infinity }}
-                      className="absolute -top-4 -right-4 w-16 h-16 bg-yellow-400 rounded-2xl flex items-center justify-center text-white text-xl shadow-lg"
-                    >
-                      💻
-                    </motion.div>
-                    <motion.div
-                      animate={{ y: [0, 10, 0], rotate: [0, -5, 0] }}
-                      transition={{ duration: 3, repeat: Infinity, delay: 1 }}
-                      className="absolute -bottom-4 -left-4 w-16 h-16 bg-green-400 rounded-2xl flex items-center justify-center text-white text-xl shadow-lg"
-                    >
-                      🚀
-                    </motion.div>
-                  </div>
+          <div className="grid lg:grid-cols-2 gap-16 items-start mb-20">
+            {/* Enhanced Profile Section */}
+            <motion.div variants={itemVariants} className="relative">
+              <div className="relative bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-blue-900/20 dark:via-gray-800 dark:to-purple-900/20 rounded-3xl p-8 overflow-hidden backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50">
+                
+                {/* Background decoration */}
+                <div className="absolute inset-0">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-2xl" />
+                  <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-br from-green-400/20 to-blue-400/20 rounded-full blur-2xl" />
                 </div>
 
-                {/* Stats overlay */}
-                                 <motion.div 
-                   variants={statsVariants}
-                   className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-white rounded-2xl shadow-2xl p-6 border border-gray-100"
-                 >
-                   <div className="flex items-center gap-4">
-                     <div className="text-center">
-                       <div className="text-2xl font-black text-blue-600">1.5+</div>
-                       <div className="text-xs text-gray-500 font-medium">Years</div>
-                     </div>
-                     <div className="w-px h-8 bg-gray-200" />
-                     <div className="text-center">
-                       <div className="text-2xl font-black text-green-600">5+</div>
-                       <div className="text-xs text-gray-500 font-medium">Projects</div>
-                     </div>
-                     <div className="w-px h-8 bg-gray-200" />
-                     <div className="text-center">
-                       <div className="text-2xl font-black text-purple-600">8+</div>
-                       <div className="text-xs text-gray-500 font-medium">Tech Stack</div>
-                     </div>
-                   </div>
-                 </motion.div>
+                {/* Profile Card */}
+                <div className="relative bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-100 dark:border-gray-700">
+                  <div className="text-center">
+                    {/* Enhanced Avatar */}
+                    <motion.div 
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                      className="relative w-32 h-32 mx-auto mb-6"
+                    >
+                      <div className="w-full h-full bg-gradient-to-br from-blue-500 via-purple-600 to-indigo-600 rounded-full flex items-center justify-center shadow-2xl relative overflow-hidden">
+                        <span className="text-4xl font-black text-white relative z-10">VD</span>
+                        
+                        {/* Animated rings */}
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                          className="absolute inset-0 border-4 border-white/20 rounded-full"
+                        />
+                        <motion.div
+                          animate={{ rotate: -360 }}
+                          transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+                          className="absolute inset-2 border-2 border-white/10 rounded-full"
+                        />
+                        
+                        {/* Status indicator */}
+                        <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-white dark:border-gray-800 flex items-center justify-center">
+                          <motion.div
+                            animate={{ scale: [1, 1.2, 1] }}
+                            transition={{ duration: 2, repeat: Infinity }}
+                            className="w-3 h-3 bg-white rounded-full"
+                          />
+                        </div>
+                      </div>
+                    </motion.div>
+                    
+                    <h3 className="text-2xl font-black text-gray-800 dark:text-white mb-2">Vikas Dwivedi</h3>
+                    <p className="text-gray-600 dark:text-gray-400 mb-6">
+                      Software Engineer & LLM Specialist
+                    </p>
+                    
+                    {/* Floating tech icons */}
+                    <div className="absolute top-6 right-6 text-2xl animate-bounce">💻</div>
+                    <div className="absolute bottom-6 left-6 text-2xl animate-pulse">🚀</div>
+                    <div className="absolute top-1/2 left-4 text-xl animate-ping">⚡</div>
+                  </div>
+
+                  {/* Enhanced Stats */}
+                  <div className="mt-8 grid grid-cols-3 gap-4">
+                    {stats.map((stat, index) => (
+                      <motion.div
+                        key={index}
+                        whileHover={{ scale: 1.05, y: -5 }}
+                        className="text-center p-4 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-600 rounded-xl border border-gray-200 dark:border-gray-600"
+                      >
+                        <div className={`text-2xl mb-2 bg-gradient-to-r ${stat.color} w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3`}>
+                          <span className="text-white text-lg">{stat.icon}</span>
+                        </div>
+                        <div className="text-lg font-black text-gray-800 dark:text-white">{stat.value}</div>
+                        <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">{stat.label}</div>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </motion.div>
 
             {/* Enhanced Content Section */}
-            <motion.div variants={itemVariants} className="space-y-8 order-1 lg:order-2">
+            <motion.div variants={itemVariants} className="space-y-8">
+              {/* Bio Section */}
               <div>
-                <h3 className="text-3xl md:text-4xl lg:text-5xl font-black text-gray-800 mb-6 leading-tight">
-                  <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                    Software Engineer
+                <h3 className="text-3xl font-black text-gray-800 dark:text-white mb-6 flex items-center gap-3">
+                  <span className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                    <HiSparkles className="w-5 h-5 text-white" />
                   </span>
-                  <br />
-                  <span className="text-gray-800">& LLM Specialist</span>
+                  Building the Future with Code
                 </h3>
                 
-                <div className="space-y-6">
-                  <p className="text-lg text-gray-600 leading-relaxed">
-                    Results-driven <strong>Software Engineer</strong> with hands-on experience developing RESTful APIs, 
-                    backend development, and full-stack web applications. Proficient in <strong>Python, Django</strong>, 
-                    and modern web technologies.
-                  </p>
+                <div className="space-y-4 text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+                  <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                    transition={{ delay: 0.5, duration: 0.8 }}
+                  >
+                    I'm a passionate <span className="font-semibold text-blue-600 dark:text-blue-400">Software Engineer</span> with expertise in backend development and LLM evaluation. 
+                    My journey in tech has been driven by curiosity and a desire to solve complex problems through innovative solutions.
+                  </motion.p>
                   
-                  <p className="text-lg text-gray-600 leading-relaxed">
-                    Delivered impactful work at <strong>Golden Eagle IT</strong> and <strong>Turing</strong> 
-                    across LLM evaluation and CMS development projects, bringing innovative solutions to complex challenges.
-                  </p>
+                  <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                    transition={{ delay: 0.7, duration: 0.8 }}
+                  >
+                    Currently working at <span className="font-semibold text-purple-600 dark:text-purple-400">Golden Eagle IT Technologies</span>, I've contributed to CMS migration projects 
+                    and specialized in evaluating Large Language Models for Turing, ensuring AI systems meet 
+                    production standards and deliver reliable results.
+                  </motion.p>
                 </div>
               </div>
 
-              {/* Enhanced Focus Areas */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <motion.div 
-                  whileHover={{ scale: 1.05, y: -5 }}
-                  className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-2xl border border-blue-100 shadow-lg hover:shadow-xl transition-all duration-300"
-                >
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center">
-                      <HiCode className="text-white text-xl" />
-                    </div>
-                    <h4 className="font-black text-gray-800 text-lg">Focus Areas</h4>
-                  </div>
-                  <ul className="space-y-3 text-gray-700">
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full" />
-                      <span className="font-medium">Backend Development</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-purple-500 rounded-full" />
-                      <span className="font-medium">LLM Evaluation</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-green-500 rounded-full" />
-                      <span className="font-medium">API Design</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-orange-500 rounded-full" />
-                      <span className="font-medium">CMS Development</span>
-                    </li>
-                  </ul>
-                </motion.div>
-
-                <motion.div 
-                  whileHover={{ scale: 1.05, y: -5 }}
-                  className="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-2xl border border-purple-100 shadow-lg hover:shadow-xl transition-all duration-300"
-                >
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center">
-                      <HiLightningBolt className="text-white text-xl" />
-                    </div>
-                    <h4 className="font-black text-gray-800 text-lg">Key Strengths</h4>
-                  </div>
-                  <ul className="space-y-3 text-gray-700">
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full" />
-                      <span className="font-medium">Scalable Solutions</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-purple-500 rounded-full" />
-                      <span className="font-medium">AI Model Assessment</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-green-500 rounded-full" />
-                      <span className="font-medium">Clean Code Practices</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-orange-500 rounded-full" />
-                      <span className="font-medium">Problem Solving</span>
-                    </li>
-                  </ul>
-                </motion.div>
-              </div>
-
-              {/* Enhanced CTA Button */}
-              <div className="pt-6">
-                <motion.button
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => {
-                    const contactSection = document.getElementById('contact')
-                    if (contactSection) {
-                      contactSection.scrollIntoView({ behavior: 'smooth' })
-                    }
-                  }}
-                  className="group relative overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-4 rounded-2xl font-bold flex items-center gap-3 hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 cursor-pointer focus:outline-none focus:ring-4 focus:ring-blue-500/50 shadow-xl hover:shadow-2xl"
-                  aria-label="Scroll to contact section to get in touch"
-                >
-                  <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12" />
-                  <span className="relative z-10">Let's Connect</span>
-                  <motion.svg 
-                    className="w-5 h-5 relative z-10" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24" 
-                    aria-hidden="true"
-                    animate={{ x: [0, 5, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </motion.svg>
-                </motion.button>
+              {/* Skills Progress Bars */}
+              <div>
+                <h4 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-3">
+                  <span className="w-6 h-6 bg-gradient-to-r from-green-500 to-teal-600 rounded-full"></span>
+                  Technical Skills
+                </h4>
+                
+                <div className="space-y-4">
+                  {skills.map((skill, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: -50 }}
+                      animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+                      transition={{ delay: 0.2 * index, duration: 0.8 }}
+                      onMouseEnter={() => setHoveredSkill(index)}
+                      onMouseLeave={() => setHoveredSkill(null)}
+                      className="group"
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="font-semibold text-gray-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                          {skill.name}
+                        </span>
+                        <span className="text-sm font-bold text-gray-600 dark:text-gray-400">
+                          {skill.level}%
+                        </span>
+                      </div>
+                      <div className="relative h-3 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                        <motion.div
+                          custom={skill.level}
+                          variants={skillVariants}
+                          initial="hidden"
+                          animate={isInView ? "visible" : "hidden"}
+                          className={`h-full bg-gradient-to-r ${skill.color} rounded-full relative`}
+                        >
+                          {hoveredSkill === index && (
+                            <motion.div
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
+                              className="absolute inset-0 bg-white/20 rounded-full"
+                            />
+                          )}
+                        </motion.div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
               </div>
             </motion.div>
           </div>
 
-          {/* Achievement Stats */}
-          <motion.div variants={itemVariants} className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.05, y: -5 }}
-                className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100"
-              >
-                <div className="flex justify-center mb-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center text-white">
-                    {stat.icon}
+          {/* Enhanced Focus Areas Grid */}
+          <motion.div variants={itemVariants} className="mb-20">
+            <h4 className="text-3xl font-black text-gray-800 dark:text-white mb-12 text-center">
+              What I <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Focus On</span>
+            </h4>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {focusAreas.map((area, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+                  transition={{ delay: 0.2 * index, duration: 0.8 }}
+                  whileHover={{ scale: 1.05, y: -10 }}
+                  className={`group relative p-8 ${area.bgColor} rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-200/50 dark:border-gray-700/50 overflow-hidden`}
+                >
+                  {/* Background gradient */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${area.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
+                  
+                  {/* Content */}
+                  <div className="relative z-10">
+                    <div className={`text-transparent bg-gradient-to-r ${area.color} bg-clip-text mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                      {area.icon}
+                    </div>
+                    <h5 className="font-black text-xl text-gray-800 dark:text-white mb-3 group-hover:text-gray-700 dark:group-hover:text-gray-100 transition-colors">
+                      {area.title}
+                    </h5>
+                    <p className="text-gray-600 dark:text-gray-400 leading-relaxed group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
+                      {area.description}
+                    </p>
                   </div>
-                </div>
-                <div className="text-3xl font-black text-gray-800 mb-2">{stat.number}</div>
-                <div className="text-sm font-medium text-gray-600">{stat.label}</div>
+                  
+                  {/* Hover effect elements */}
+                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className={`w-3 h-3 bg-gradient-to-r ${area.color} rounded-full animate-pulse`} />
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Enhanced Key Strengths */}
+          <motion.div variants={itemVariants} className="mb-20">
+            <h4 className="text-3xl font-black text-gray-800 dark:text-white mb-12 text-center">
+              Core <span className="bg-gradient-to-r from-green-600 to-teal-600 bg-clip-text text-transparent">Strengths</span>
+            </h4>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {keyStrengths.map((strength, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                  transition={{ delay: 0.1 * index, duration: 0.8 }}
+                  whileHover={{ scale: 1.03, x: 5 }}
+                  className="flex items-center gap-4 p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 group"
+                >
+                  <div className="flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                    {strength.icon}
+                  </div>
+                  <span className="text-gray-700 dark:text-gray-300 font-medium group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
+                    {strength.text}
+                  </span>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Enhanced CTA Section */}
+          <motion.div variants={itemVariants} className="text-center">
+            <motion.button
+              onClick={handleLetConnect}
+              whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
+              className="group relative overflow-hidden bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 hover:from-blue-700 hover:via-purple-700 hover:to-indigo-700 text-white px-12 py-5 rounded-3xl font-black text-lg flex items-center gap-4 shadow-2xl hover:shadow-3xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-500/50 mx-auto"
+              aria-label="Contact Vikas Dwivedi"
+            >
+              {/* Animated background */}
+              <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 skew-x-12" />
+              
+              {/* Button content */}
+              <span className="relative z-10">Let's Work Together</span>
+              <HiArrowRight className="relative z-10 group-hover:translate-x-2 transition-transform duration-300" />
+              
+              {/* Sparkle effects */}
+              <motion.div
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                className="absolute -top-1 -right-1 text-yellow-300"
+              >
+                <HiSparkles className="w-5 h-5" />
               </motion.div>
-            ))}
+            </motion.button>
+          </motion.div>
+
+          {/* Enhanced Achievement Stats */}
+          <motion.div variants={itemVariants} className="mt-20">
+            <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 dark:from-blue-700 dark:via-purple-700 dark:to-indigo-700 rounded-3xl p-8 text-white relative overflow-hidden">
+              {/* Background pattern */}
+              <div className="absolute inset-0 opacity-10">
+                <div className="h-full w-full" style={{
+                  backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
+                  backgroundSize: '30px 30px'
+                }} />
+              </div>
+              
+              <div className="relative z-10">
+                <div className="text-center mb-8">
+                  <h3 className="text-3xl font-black mb-4">
+                    Journey <span className="text-yellow-300">Highlights</span>
+                  </h3>
+                  <p className="text-blue-100 dark:text-blue-200 text-lg">
+                    Continuous growth and impactful contributions
+                  </p>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                  {[
+                    { value: "1.5+", label: "Years Experience", desc: "Professional Growth" },
+                    { value: "5+", label: "Projects Completed", desc: "Quality Delivered" },
+                    { value: "8+", label: "Technologies Mastered", desc: "Continuous Learning" }
+                  ].map((stat, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, scale: 0.5 }}
+                      animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
+                      transition={{ delay: 0.2 * index, duration: 0.8 }}
+                      whileHover={{ scale: 1.1 }}
+                      className="space-y-2"
+                    >
+                      <motion.div 
+                        className="text-4xl font-black"
+                        animate={{ 
+                          textShadow: [
+                            "0 0 10px rgba(255,255,255,0.5)",
+                            "0 0 20px rgba(255,255,255,0.8)",
+                            "0 0 10px rgba(255,255,255,0.5)"
+                          ]
+                        }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      >
+                        {stat.value}
+                      </motion.div>
+                      <div className="text-blue-100 dark:text-blue-200 font-bold">{stat.label}</div>
+                      <div className="text-blue-200 dark:text-blue-300 text-sm opacity-80">{stat.desc}</div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </motion.div>
         </motion.div>
       </div>

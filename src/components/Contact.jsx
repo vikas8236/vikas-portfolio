@@ -1,20 +1,8 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef, useState, useCallback } from 'react'
-import { 
-  HiMail, 
-  HiPhone, 
-  HiLocationMarker, 
-  HiPaperAirplane,
-  HiUser,
-  HiChatAlt,
-  HiExclamationCircle,
-  HiCheckCircle,
-  HiClock,
-  HiStar,
-  HiGlobe
-} from 'react-icons/hi'
-import { FaLinkedin, FaGithub, FaTwitter, FaDiscord } from 'react-icons/fa'
+import { HiMail, HiPhone, HiLocationMarker, HiClock, HiStar, HiGlobe, HiCheckCircle, HiExclamation, HiSparkles } from 'react-icons/hi'
+import { FaLinkedin, FaGithub, FaTwitter } from 'react-icons/fa'
 
 const Contact = () => {
   const ref = useRef(null)
@@ -126,6 +114,7 @@ const Contact = () => {
       href: "mailto:V8236014408@gmail.com",
       ariaLabel: "Send email to Vikas Dwivedi",
       color: "from-red-500 to-pink-500",
+      bgColor: "from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20",
       description: "Preferred for detailed discussions"
     },
     {
@@ -135,15 +124,17 @@ const Contact = () => {
       href: "tel:+918839034415",
       ariaLabel: "Call Vikas Dwivedi",
       color: "from-green-500 to-teal-500",
+      bgColor: "from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20",
       description: "Available 9 AM - 8 PM IST"
     },
     {
       icon: <HiLocationMarker className="text-2xl" />,
       label: "Location",
-      value: "India",
+      value: "India (Remote)",
       href: null,
-      ariaLabel: "Location: India",
-      color: "from-blue-500 to-indigo-500",
+      ariaLabel: "Location: India (Remote)",
+      color: "from-blue-500 to-purple-500",
+      bgColor: "from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20",
       description: "Open to global opportunities"
     }
   ]
@@ -152,20 +143,29 @@ const Contact = () => {
     {
       name: "LinkedIn",
       icon: <FaLinkedin className="text-2xl" />,
-      href: "https://www.linkedin.com/in/vikas-dwivedi-668328227/",
-      color: "hover:text-blue-600",
+      url: "https://www.linkedin.com/in/vikas-dwivedi-668328227/",
+      color: "from-blue-600 to-blue-700",
       bgColor: "from-blue-600 to-blue-700",
-      ariaLabel: "Connect with Vikas Dwivedi on LinkedIn",
-      followers: "500+"
+      description: "Professional network",
+      followers: "500+ connections"
     },
     {
-      name: "GitHub", 
+      name: "GitHub",
       icon: <FaGithub className="text-2xl" />,
-      href: "https://github.com/vikas8236",
-      color: "hover:text-gray-800",
+      url: "https://github.com/vikas8236",
+      color: "from-gray-700 to-gray-900",
       bgColor: "from-gray-700 to-gray-900",
-      ariaLabel: "View Vikas Dwivedi's GitHub profile",
-      followers: "50+"
+      description: "Code repositories",
+      followers: "Growing portfolio"
+    },
+    {
+      name: "Twitter",
+      icon: <FaTwitter className="text-2xl" />,
+      url: "#",
+      color: "from-blue-400 to-blue-500",
+      bgColor: "from-blue-400 to-blue-500",
+      description: "Tech discussions",
+      followers: "Tech community"
     }
   ]
 
@@ -175,13 +175,13 @@ const Contact = () => {
       opacity: 1,
       transition: {
         delayChildren: 0.3,
-        staggerChildren: 0.2
+        staggerChildren: 0.15
       }
     }
   }
 
   const itemVariants = {
-    hidden: { y: 30, opacity: 0 },
+    hidden: { y: 50, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
@@ -193,47 +193,103 @@ const Contact = () => {
   }
 
   return (
-    <section id="contact" className="py-16 md:py-24 bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white px-4 sm:px-6 lg:px-8 relative overflow-hidden" ref={ref}>
-      {/* Enhanced Background */}
+    <section 
+      id="contact" 
+      className="py-20 md:py-32 bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900 relative overflow-hidden transition-all duration-300" 
+      ref={ref}
+    >
+      {/* Enhanced Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-blue-500 rounded-full opacity-10 blur-3xl" />
-        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-purple-500 rounded-full opacity-10 blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-pink-500 rounded-full opacity-5 blur-3xl" />
+        <motion.div
+          animate={{ 
+            scale: [1, 1.2, 1],
+            rotate: [0, 180, 360]
+          }}
+          transition={{ 
+            duration: 25,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          className="absolute top-1/4 -left-32 w-96 h-96 bg-blue-500/20 dark:bg-blue-500/10 rounded-full blur-3xl"
+        />
+        <motion.div
+          animate={{ 
+            scale: [1.2, 1, 1.2],
+            rotate: [360, 180, 0]
+          }}
+          transition={{ 
+            duration: 30,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          className="absolute bottom-1/4 -right-32 w-96 h-96 bg-purple-500/20 dark:bg-purple-500/10 rounded-full blur-3xl"
+        />
+        <motion.div
+          animate={{ 
+            scale: [1, 1.3, 1],
+            rotate: [0, 90, 180, 270, 360]
+          }}
+          transition={{ 
+            duration: 20,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-pink-500/20 dark:bg-pink-500/10 rounded-full blur-3xl"
+        />
         
-        {/* Grid pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="h-full w-full" style={{
-            backgroundImage: `linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(180deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-            backgroundSize: '60px 60px'
-          }} />
-        </div>
+        {/* Grid pattern overlay */}
+        <div className="absolute inset-0 bg-grid-gray-100/30 dark:bg-grid-gray-700/20 [mask-image:radial-gradient(ellipse_at_center,white,transparent)]" />
       </div>
 
-      <div className="container mx-auto relative z-10">
+      <div className="container mx-auto relative z-10 max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="max-w-7xl mx-auto"
         >
           {/* Enhanced Section Header */}
           <motion.div variants={itemVariants} className="text-center mb-16 md:mb-20">
-            <div className="inline-flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-6 py-3 mb-6">
-              <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse" />
-              <span className="text-sm font-semibold text-gray-300 uppercase tracking-wider">Get In Touch</span>
-            </div>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black mb-6">
-              <span className="bg-gradient-to-r from-pink-400 via-purple-500 to-blue-600 bg-clip-text text-transparent">
-                Let's Work
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="inline-flex items-center gap-3 bg-gradient-to-r from-pink-100 to-purple-100 dark:from-pink-900/50 dark:to-purple-900/50 text-pink-700 dark:text-pink-300 px-6 py-3 rounded-full text-sm font-medium mb-6 backdrop-blur-sm border border-pink-200/50 dark:border-pink-700/50"
+            >
+              <motion.span
+                animate={{ rotate: [0, 360] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+              >
+                📞
+              </motion.span>
+              <span>Get In Touch</span>
+              <HiSparkles className="w-4 h-4" />
+            </motion.div>
+            
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-gray-800 dark:text-white mb-6">
+              Let's{" "}
+              <span className="relative">
+                <span className="bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
+                  Work Together
+                </span>
+                <motion.div
+                  animate={{ 
+                    scale: [1, 1.3, 1],
+                    rotate: [0, 180, 360]
+                  }}
+                  transition={{ duration: 4, repeat: Infinity }}
+                  className="absolute -top-3 -right-3 text-yellow-400"
+                >
+                  <HiStar className="w-6 h-6" />
+                </motion.div>
               </span>
-              <br />
-              <span className="text-white">Together</span>
             </h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-pink-400 to-blue-600 mx-auto mb-6" />
-            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              Ready to bring your next project to life? Let's discuss how we can collaborate 
-              to create something amazing together.
-            </p>
+            
+            <div className="w-24 h-1 bg-gradient-to-r from-pink-500 to-purple-600 mx-auto mb-6 rounded-full" />
+            <motion.p 
+              variants={itemVariants}
+              className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed"
+            >
+              Ready to bring your next project to life? Let's discuss how we can collaborate to
+              <span className="text-pink-600 dark:text-pink-400 font-semibold"> create something amazing together</span>
+            </motion.p>
           </motion.div>
 
           {/* Contact Stats */}
@@ -242,199 +298,210 @@ const Contact = () => {
               {contactStats.map((stat, index) => (
                 <motion.div
                   key={index}
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
+                  transition={{ delay: 0.2 * index, duration: 0.5 }}
                   whileHover={{ scale: 1.05, y: -5 }}
-                  className={`bg-gradient-to-r ${stat.color} p-6 rounded-3xl text-center shadow-2xl`}
+                  className={`bg-gradient-to-r ${stat.color} p-6 rounded-3xl text-center shadow-2xl relative overflow-hidden group`}
                 >
-                  <div className="flex justify-center mb-4">
-                    <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center text-2xl">
-                      {stat.icon}
+                  {/* Animated background */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  
+                  <div className="relative z-10">
+                    <div className="flex justify-center mb-4">
+                      <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center text-2xl text-white">
+                        {stat.icon}
+                      </div>
                     </div>
+                    <h3 className="text-2xl font-black text-white mb-2">{stat.value}</h3>
+                    <p className="text-white/80 font-medium">{stat.label}</p>
                   </div>
-                  <div className="text-2xl font-black mb-2">{stat.value}</div>
-                  <div className="text-sm font-medium opacity-90">{stat.label}</div>
                 </motion.div>
               ))}
             </div>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mb-16">
-            {/* Enhanced Contact Information */}
-            <motion.div variants={itemVariants} className="space-y-8 order-2 lg:order-1">
-              <div>
-                <h3 className="text-3xl md:text-4xl font-black mb-6 leading-tight">
-                  <span className="bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">
-                    Get In Touch
-                  </span>
-                </h3>
-                <p className="text-lg text-gray-300 mb-8 leading-relaxed">
-                  I'm always interested in discussing new opportunities, 
-                  innovative projects, and potential collaborations. 
-                  Whether you're looking for backend development, LLM evaluation, 
-                  or technical consultation, I'd love to hear from you.
-                </p>
-              </div>
-
-              {/* Enhanced Contact Details */}
-              <div className="space-y-6">
-                {contactInfo.map((contact, index) => (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+            {/* Contact Details */}
+            <motion.div variants={itemVariants}>
+              <h3 className="text-3xl md:text-4xl font-black text-gray-800 dark:text-white mb-8 flex items-center gap-3">
+                <div className="w-8 h-8 bg-gradient-to-r from-pink-500 to-purple-500 rounded-lg flex items-center justify-center">
+                  <HiMail className="w-5 h-5 text-white" />
+                </div>
+                Contact Information
+              </h3>
+              
+              <div className="space-y-6 mb-12">
+                {contactInfo.map((info, index) => (
                   <motion.div
                     key={index}
-                    whileHover={{ scale: 1.02, x: 10 }}
-                    className="group bg-white/10 backdrop-blur-sm rounded-3xl p-6 border border-white/20 hover:bg-white/15 transition-all duration-300"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+                    transition={{ delay: 0.1 * index, duration: 0.6 }}
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    className={`group p-6 bg-gradient-to-r ${info.bgColor} rounded-2xl border border-gray-200/50 dark:border-gray-700/50 hover:shadow-lg transition-all duration-300`}
                   >
-                    <div className="flex items-center gap-6">
-                      <div className={`w-16 h-16 bg-gradient-to-r ${contact.color} rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                        {contact.icon}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-3 mb-2">
-                          <p className="text-gray-400 text-sm font-semibold uppercase tracking-wider">{contact.label}</p>
+                    {info.href ? (
+                      <a
+                        href={info.href}
+                        aria-label={info.ariaLabel}
+                        className="flex items-start gap-4 text-decoration-none"
+                      >
+                        <div className={`w-12 h-12 bg-gradient-to-r ${info.color} rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                          {info.icon}
                         </div>
-                        {contact.href ? (
-                          <a 
-                            href={contact.href}
-                            aria-label={contact.ariaLabel}
-                            className="text-white hover:text-blue-400 transition-colors font-bold text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 rounded break-all group-hover:text-blue-400"
-                          >
-                            {contact.value}
-                          </a>
-                        ) : (
-                          <p className="text-white font-bold text-lg" aria-label={contact.ariaLabel}>
-                            {contact.value}
+                        <div className="flex-1">
+                          <h4 className="text-lg font-black text-gray-800 dark:text-white group-hover:text-gray-900 dark:group-hover:text-gray-100 transition-colors">
+                            {info.label}
+                          </h4>
+                          <p className="text-gray-700 dark:text-gray-300 font-semibold mb-1 group-hover:text-gray-900 dark:group-hover:text-gray-200 transition-colors">
+                            {info.value}
                           </p>
-                        )}
-                        <p className="text-gray-400 text-sm mt-1">{contact.description}</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                            {info.description}
+                          </p>
+                        </div>
+                      </a>
+                    ) : (
+                      <div className="flex items-start gap-4">
+                        <div className={`w-12 h-12 bg-gradient-to-r ${info.color} rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                          {info.icon}
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="text-lg font-black text-gray-800 dark:text-white group-hover:text-gray-900 dark:group-hover:text-gray-100 transition-colors">
+                            {info.label}
+                          </h4>
+                          <p className="text-gray-700 dark:text-gray-300 font-semibold mb-1 group-hover:text-gray-900 dark:group-hover:text-gray-200 transition-colors">
+                            {info.value}
+                          </p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                            {info.description}
+                          </p>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </motion.div>
                 ))}
               </div>
 
-              {/* Enhanced Social Links */}
-              <div>
-                <h4 className="text-xl font-black mb-6 text-white">Connect With Me</h4>
-                <div className="grid grid-cols-2 gap-4">
-                  {socialLinks.map((social, index) => (
-                    <motion.a
-                      key={index}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={social.ariaLabel}
-                      whileHover={{ scale: 1.05, y: -5 }}
-                      whileTap={{ scale: 0.95 }}
-                      className={`group bg-gradient-to-r ${social.bgColor} p-6 rounded-3xl focus:outline-none focus:ring-4 focus:ring-white/20 shadow-2xl hover:shadow-3xl transition-all duration-300`}
-                    >
-                      <div className="flex items-center gap-4">
-                        <div className="text-white group-hover:scale-110 transition-transform duration-300">
-                          {social.icon}
-                        </div>
-                        <div>
-                          <div className="text-white font-bold text-lg">{social.name}</div>
-                          <div className="text-white/80 text-sm">{social.followers} followers</div>
-                        </div>
+              {/* Social Links */}
+              <h4 className="text-2xl font-black text-gray-800 dark:text-white mb-6">Connect on Social</h4>
+              <div className="flex flex-wrap gap-4">
+                {socialLinks.map((social, index) => (
+                  <motion.a
+                    key={index}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.5 }}
+                    transition={{ delay: 0.1 * index, duration: 0.5 }}
+                    whileHover={{ scale: 1.1, y: -3 }}
+                    className={`group relative flex items-center gap-3 bg-gradient-to-r ${social.bgColor} text-white px-6 py-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden`}
+                    aria-label={`Visit ${social.name} profile`}
+                  >
+                    {/* Hover effect background */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    
+                    <div className="relative z-10 flex items-center gap-3">
+                      <div className="group-hover:scale-110 transition-transform duration-300">
+                        {social.icon}
                       </div>
-                    </motion.a>
-                  ))}
-                </div>
+                      <div>
+                        <div className="font-bold">{social.name}</div>
+                        <div className="text-xs opacity-80">{social.followers}</div>
+                      </div>
+                    </div>
+                  </motion.a>
+                ))}
               </div>
             </motion.div>
 
-            {/* Enhanced Contact Form */}
-            <motion.div variants={itemVariants} className="order-1 lg:order-2">
-              <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 md:p-10 border border-white/20 shadow-2xl">
-                <h3 className="text-3xl md:text-4xl font-black mb-8 text-center">
-                  <span className="bg-gradient-to-r from-pink-400 to-purple-600 bg-clip-text text-transparent">
-                    Send a Message
-                  </span>
+            {/* Contact Form */}
+            <motion.div variants={itemVariants}>
+              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-gray-200/50 dark:border-gray-700/50">
+                <h3 className="text-3xl font-black text-gray-800 dark:text-white mb-6 flex items-center gap-3">
+                  <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+                    <HiMail className="w-5 h-5 text-white" />
+                  </div>
+                  Send a Message
                 </h3>
-                
-                {/* Enhanced Status Messages */}
-                {submitStatus === 'success' && (
+
+                {/* Status Messages */}
+                {submitStatus && (
                   <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="mb-6 p-4 bg-gradient-to-r from-green-500 to-teal-500 text-white rounded-2xl flex items-center gap-3 shadow-lg"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className={`mb-6 p-4 rounded-xl flex items-center gap-3 ${
+                      submitStatus === 'success'
+                        ? 'bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800'
+                        : 'bg-gradient-to-r from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800'
+                    }`}
                   >
-                    <HiCheckCircle className="text-2xl flex-shrink-0" />
-                    <span className="font-semibold">Message sent successfully! I'll get back to you soon.</span>
+                    {submitStatus === 'success' ? (
+                      <HiCheckCircle className="w-5 h-5 flex-shrink-0" />
+                    ) : (
+                      <HiExclamation className="w-5 h-5 flex-shrink-0" />
+                    )}
+                    <span className="font-semibold">
+                      {submitStatus === 'success'
+                        ? 'Message sent successfully! Opening your email client...'
+                        : 'Something went wrong. Please try again or contact directly via email.'}
+                    </span>
                   </motion.div>
                 )}
-                
-                {submitStatus === 'error' && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="mb-6 p-4 bg-gradient-to-r from-red-500 to-pink-500 text-white rounded-2xl flex items-center gap-3 shadow-lg"
-                  >
-                    <HiExclamationCircle className="text-2xl flex-shrink-0" />
-                    <span className="font-semibold">There was an error sending your message. Please try again.</span>
-                  </motion.div>
-                )}
-                
-                <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-bold text-gray-300 mb-3">
-                        Name *
+                      <label htmlFor="name" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                        Full Name *
                       </label>
-                      <div className="relative">
-                        <HiUser className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg" />
-                        <input
-                          type="text"
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleInputChange}
-                          required
-                          aria-required="true"
-                          aria-invalid={errors.name ? 'true' : 'false'}
-                          aria-describedby={errors.name ? 'name-error' : undefined}
-                          className={`w-full pl-12 pr-4 py-4 bg-white/10 border-2 rounded-2xl focus:ring-4 focus:ring-blue-500/50 focus:border-blue-400 text-white placeholder-gray-400 transition-all duration-300 backdrop-blur-sm ${
-                            errors.name ? 'border-red-400' : 'border-white/20 hover:border-white/40'
-                          }`}
-                          placeholder="Your Name"
-                        />
-                      </div>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        className={`w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border-2 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-blue-500/50 transition-all duration-300 ${
+                          errors.name
+                            ? 'border-red-500 focus:border-red-500'
+                            : 'border-gray-200 dark:border-gray-600 focus:border-blue-500'
+                        }`}
+                        placeholder="Your full name"
+                        required
+                      />
                       {errors.name && (
-                        <p id="name-error" className="mt-2 text-sm text-red-400 font-medium" role="alert">
-                          {errors.name}
-                        </p>
+                        <p className="mt-2 text-sm text-red-600 dark:text-red-400 font-semibold">{errors.name}</p>
                       )}
                     </div>
 
                     <div>
-                      <label htmlFor="email" className="block text-sm font-bold text-gray-300 mb-3">
-                        Email *
+                      <label htmlFor="email" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                        Email Address *
                       </label>
-                      <div className="relative">
-                        <HiMail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg" />
-                        <input
-                          type="email"
-                          id="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          required
-                          aria-required="true"
-                          aria-invalid={errors.email ? 'true' : 'false'}
-                          aria-describedby={errors.email ? 'email-error' : undefined}
-                          className={`w-full pl-12 pr-4 py-4 bg-white/10 border-2 rounded-2xl focus:ring-4 focus:ring-blue-500/50 focus:border-blue-400 text-white placeholder-gray-400 transition-all duration-300 backdrop-blur-sm ${
-                            errors.email ? 'border-red-400' : 'border-white/20 hover:border-white/40'
-                          }`}
-                          placeholder="your.email@example.com"
-                        />
-                      </div>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        className={`w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border-2 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-blue-500/50 transition-all duration-300 ${
+                          errors.email
+                            ? 'border-red-500 focus:border-red-500'
+                            : 'border-gray-200 dark:border-gray-600 focus:border-blue-500'
+                        }`}
+                        placeholder="your.email@example.com"
+                        required
+                      />
                       {errors.email && (
-                        <p id="email-error" className="mt-2 text-sm text-red-400 font-medium" role="alert">
-                          {errors.email}
-                        </p>
+                        <p className="mt-2 text-sm text-red-600 dark:text-red-400 font-semibold">{errors.email}</p>
                       )}
                     </div>
                   </div>
 
                   <div>
-                    <label htmlFor="subject" className="block text-sm font-bold text-gray-300 mb-3">
+                    <label htmlFor="subject" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
                       Subject *
                     </label>
                     <input
@@ -443,66 +510,65 @@ const Contact = () => {
                       name="subject"
                       value={formData.subject}
                       onChange={handleInputChange}
-                      required
-                      aria-required="true"
-                      aria-invalid={errors.subject ? 'true' : 'false'}
-                      aria-describedby={errors.subject ? 'subject-error' : undefined}
-                      className={`w-full px-4 py-4 bg-white/10 border-2 rounded-2xl focus:ring-4 focus:ring-blue-500/50 focus:border-blue-400 text-white placeholder-gray-400 transition-all duration-300 backdrop-blur-sm ${
-                        errors.subject ? 'border-red-400' : 'border-white/20 hover:border-white/40'
+                      className={`w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border-2 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-blue-500/50 transition-all duration-300 ${
+                        errors.subject
+                          ? 'border-red-500 focus:border-red-500'
+                          : 'border-gray-200 dark:border-gray-600 focus:border-blue-500'
                       }`}
-                      placeholder="Project Discussion"
+                      placeholder="What's this about?"
+                      required
                     />
                     {errors.subject && (
-                      <p id="subject-error" className="mt-2 text-sm text-red-400 font-medium" role="alert">
-                        {errors.subject}
-                      </p>
+                      <p className="mt-2 text-sm text-red-600 dark:text-red-400 font-semibold">{errors.subject}</p>
                     )}
                   </div>
 
                   <div>
-                    <label htmlFor="message" className="block text-sm font-bold text-gray-300 mb-3">
+                    <label htmlFor="message" className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
                       Message *
                     </label>
-                    <div className="relative">
-                      <HiChatAlt className="absolute left-4 top-4 text-gray-400 text-lg" />
-                      <textarea
-                        id="message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleInputChange}
-                        required
-                        aria-required="true"
-                        aria-invalid={errors.message ? 'true' : 'false'}
-                        aria-describedby={errors.message ? 'message-error' : undefined}
-                        rows={5}
-                        className={`w-full pl-12 pr-4 py-4 bg-white/10 border-2 rounded-2xl focus:ring-4 focus:ring-blue-500/50 focus:border-blue-400 text-white placeholder-gray-400 resize-none transition-all duration-300 backdrop-blur-sm ${
-                          errors.message ? 'border-red-400' : 'border-white/20 hover:border-white/40'
-                        }`}
-                        placeholder="Tell me about your project..."
-                      />
-                    </div>
+                    <textarea
+                      id="message"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleInputChange}
+                      rows={6}
+                      className={`w-full px-4 py-3 bg-gray-50 dark:bg-gray-700 border-2 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-blue-500/50 transition-all duration-300 resize-vertical ${
+                        errors.message
+                          ? 'border-red-500 focus:border-red-500'
+                          : 'border-gray-200 dark:border-gray-600 focus:border-blue-500'
+                      }`}
+                      placeholder="Tell me about your project, timeline, and how I can help..."
+                      required
+                    />
                     {errors.message && (
-                      <p id="message-error" className="mt-2 text-sm text-red-400 font-medium" role="alert">
-                        {errors.message}
-                      </p>
+                      <p className="mt-2 text-sm text-red-600 dark:text-red-400 font-semibold">{errors.message}</p>
                     )}
                   </div>
 
                   <motion.button
                     type="submit"
                     disabled={isSubmitting}
-                    whileHover={{ scale: isSubmitting ? 1 : 1.05, y: isSubmitting ? 0 : -2 }}
-                    whileTap={{ scale: isSubmitting ? 1 : 0.95 }}
-                    className={`group relative overflow-hidden w-full py-4 px-8 rounded-2xl font-black flex items-center justify-center gap-3 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-500/50 text-lg shadow-2xl ${
-                      isSubmitting 
-                        ? 'bg-gradient-to-r from-gray-400 to-gray-500 cursor-not-allowed' 
-                        : 'bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 cursor-pointer'
-                    } text-white`}
-                    aria-label={isSubmitting ? 'Sending message...' : 'Send message'}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 hover:from-pink-700 hover:via-purple-700 hover:to-blue-700 text-white font-black py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden group"
                   >
-                    <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700 skew-x-12" />
-                    <HiPaperAirplane className={`text-xl relative z-10 ${isSubmitting ? 'animate-pulse' : ''}`} />
-                    <span className="relative z-10">{isSubmitting ? 'Sending...' : 'Send Message'}</span>
+                    {/* Button background animation */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    
+                    <span className="relative z-10 flex items-center justify-center gap-3">
+                      {isSubmitting ? (
+                        <>
+                          <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          <HiMail className="w-5 h-5" />
+                          Send Message
+                        </>
+                      )}
+                    </span>
                   </motion.button>
                 </form>
               </div>
@@ -510,18 +576,40 @@ const Contact = () => {
           </div>
 
           {/* Enhanced Footer */}
-          <motion.div 
-            variants={itemVariants}
-            className="text-center"
-          >
-            <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
-              <p className="text-gray-300 text-lg mb-4">
-                © 2024 Vikas Dwivedi. Built with React & Tailwind CSS.
-              </p>
-              <div className="flex items-center justify-center gap-4 text-sm text-gray-400">
-                <span>Made with ❤️ in India</span>
-                <span>•</span>
-                <span>Always open to new opportunities</span>
+          <motion.div variants={itemVariants} className="text-center pt-12 border-t border-gray-200 dark:border-gray-700">
+            <div className="bg-gradient-to-r from-pink-600 via-purple-600 to-blue-600 dark:from-pink-700 dark:via-purple-700 dark:to-blue-700 rounded-3xl p-8 md:p-12 text-white relative overflow-hidden">
+              
+              {/* Background pattern */}
+              <div className="absolute inset-0 opacity-10">
+                <motion.div
+                  animate={{ rotate: [0, 360] }}
+                  transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+                  className="h-full w-full"
+                  style={{
+                    backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
+                    backgroundSize: '40px 40px'
+                  }}
+                />
+              </div>
+              
+              <div className="relative z-10">
+                <motion.p 
+                  className="text-lg md:text-xl font-bold mb-4"
+                  animate={{ 
+                    textShadow: [
+                      "0 0 20px rgba(255,255,255,0.5)",
+                      "0 0 30px rgba(255,255,255,0.8)",
+                      "0 0 20px rgba(255,255,255,0.5)"
+                    ]
+                  }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                >
+                  © 2024 Vikas Dwivedi. Crafted with passion and precision.
+                </motion.p>
+                
+                <p className="text-pink-100 dark:text-pink-200 text-base md:text-lg">
+                  Let's build something amazing together ✨
+                </p>
               </div>
             </div>
           </motion.div>
